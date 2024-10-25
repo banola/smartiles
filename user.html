@@ -27,10 +27,13 @@
                     <a class="nav-link" href="login.html">Login</a>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
+
+                            const backendUrl = "http://localhost:8080";
+
                             //Com esse script, podemos verificar se o usuário está logado.
                             //Se estiver logado, altera o "Login" para o nome do usuário
                             //Se não, mantêm o "Login"
-                            fetch('/user/currentuser', {
+                            fetch(`${backendUrl}/user/currentuser`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -74,7 +77,7 @@
                     <p class="card-text text-white" id="user-email">Email: usuario@example.com</p>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            fetch('/user/currentuser', {
+                            fetch(`${backendUrl}/user/currentuser`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -121,7 +124,7 @@
                         <script>
                             document.getElementById("logoutbtn").addEventListener('click', function(event) {
                                 event.preventDefault();
-                                fetch('/login/logout', {
+                                fetch(`${backendUrl}/login/logout`, {
                                     method: 'POST' })
                                     .then(response => {
                                         if (response.ok) {
@@ -159,7 +162,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function(){
-            fetch('/operations')
+            fetch(`${backendUrl}/operations`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erro ao buscar dados');
@@ -191,7 +194,7 @@
 
         function confirmDelete(id) {
             if (confirm('Tem certeza que deseja excluir esta operação?')){
-                fetch(`/operations/${id}`, {
+                fetch(`${backendUrl}/operations/${id}`, {
                     method:'DELETE',
                 })
                     .then(response =>{

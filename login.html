@@ -45,6 +45,9 @@
             <button type="submit" class="btn btn-primary mb-1">Entrar</button><br>
             <a href="createUser.html">Criar uma conta?</a>
             <script>
+
+                const backendUrl = "http://localhost:8080";
+
                 // Função que faz o login do usuário, criando uma sessão Http
                 // Caso o usuário possua conta e as credenciais estiverem certas, redireciona para a "index.html"
                 // Caso não possua conta ou credenciais incorretas, alerta na tela
@@ -57,7 +60,7 @@
                     params.append("email", email);
                     params.append("password", password);
 
-                    fetch('/login', {
+                    fetch(`${backendUrl}/login`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -66,7 +69,7 @@
                     })
                         .then(response => {
                             if (response.ok) {
-                                window.location.href = "/index.html";
+                                window.location.href = "index.html";
                             } else {
                                 return response.text().then(errorMessage => {
                                     alert(errorMessage);

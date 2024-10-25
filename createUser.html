@@ -50,6 +50,9 @@
             <button type="submit" class="btn btn-success mb-1">Criar</button><br>
             <a href="login.html">Já possui uma conta?</a>
             <script>
+
+                const backendUrl = "http://localhost:8080";
+
                 // Função que cria um usuário caso ele não exista
                 // Ao criar o usuário, redireciona para a "index.html"
                 // Caso já exista, alerta na tela
@@ -71,7 +74,7 @@
                         password: password
                     };
 
-                    fetch('/user/register', {
+                    fetch(`${backendUrl}/user/register`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
