@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmarTiles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <nav class="navbar navbar-light fixed-top navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand mb-0 h1" href="index.html">
+                <img src="favicon.ico" alt="SmarTiles" style="height: 24px;">
+                SmarTiles
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarOpen">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarOpen">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                        <script>
+                            const backendUrl = "http://localhost:8080";
+    
+                            document.addEventListener("DOMContentLoaded", function () {
+                                // Verifica se o usuário está logado.
+                                fetch(`${backendUrl}/user/currentuser`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    credentials: 'include'
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        } else {
+                                            return null;
+                                        }
+                                    })
+                                    .then(user => {
+                                        if (user) {
+                                            // Substitui o link de "Login" pelo nome do usuário, se estiver logado
+                                            const loginLink = document.querySelector('.nav-link[href="login.html"]');
+                                            if (loginLink) {
+                                                loginLink.textContent = user.name; // Atualiza o texto com o nome do usuário
+                                                loginLink.href = "user.html"; // Remove o link para a página de login
+                                            }
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro ao buscar o usuário:', error);                                
+                                    });
+                            });
+                        </script>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+    <div class="section d-flex justify-content-center align-items-center vh-100 text-center">
+        <h1 class="text-white" id="welcome-text">Bem Vindo!</h1>
+    </div>
+
+    <div class="section d-flex justify-content-center align-items-center vh-100 text-center text-white">
+        <div>
+            <h5>Aqui você poderá realizar seus cálculos sem dor de cabeça!</h5>
+            <h6>Clique no cubo para iniciar o cálculo em uma parede ou piso.</h6>
+            <figure class="text-end">
+                <blockquote class="blockquote">
+                    <p class="mt-5">Você também pode fazer <a href="login.html">login</a> para que seus cálculos fiquem no nosso histórico!</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Mas afinal, como <cite title="Source Title"><a href="#tutorial">funciona?</a></cite>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <div id="calculadora" class="section d-flex justify-content-center align-items-center vh-100 text-center mx-5">
+        <form id="calculationForm" >
+            <h4 class="text-white text-center mb-3" id="clickedSideName">Dimensões do Ambiente</h4>
+            <div class="row">
+                <div class="col-md-6 form-floating mb-3">
+                    <input type="number" class="form-control" placeholder="Largura (m)" id="AreaWidthInput" name="room_width" required>
+                    <label for="AreaWidthInput">Largura (m)</label>
+                </div>
+                <div class="col-md-6 form-floating mb-3">
+                    <input type="number" class="form-control" placeholder="Altura (m)" id="AreaHeightInput" name="room_height" required>
+                    <label for="AreaHeightInput">Altura (m)</label>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-center text-white mt-3">Área total</h4>
+                <h5 class="result text-center text-white mt-1" id="AreaResultDiv"></h5>
+                <script>
+                    // Função que calcula previamente a área do local a ser preenchido
+                    const widthInput = document.getElementById('AreaWidthInput');
+                    const heightInput = document.getElementById('AreaHeightInput');
+                    const AreaResultDiv = document.getElementById('AreaResultDiv');
+
+                    function calculateArea() {
+                        const width = parseFloat(widthInput.value);
+                        const height = parseFloat(heightInput.value);
+
+                        if (!isNaN(width) && !isNaN(height)) {
+                            const area = width * height;
+                            AreaResultDiv.textContent = `${area} m²`;
+                        } else {
+                            AreaResultDiv.textContent = '0 m²';
+                        }
+                    }
+
+                    widthInput.addEventListener('input', calculateArea);
+                    heightInput.addEventListener('input', calculateArea);
+                </script>
+            </div>
+
+            <div class="separator"></div>
+
+            <h4 class="text-white text-center mb-3">Dimensões do Azulejo</h4>
+            <div class="row">
+                <div class="col-md-6 form-floating mb-3">
+                    <input type="number" class="form-control" placeholder="Largura (cm)" id="TilesWidthInput" name="tile_width" required>
+                    <label for="TilesWidthInput">Largura (cm)</label>
+                </div>
+                <div class="col-md-6 form-floating mb-3">
+                    <input type="number" class="form-control" placeholder="Altura (cm)" id="TilesHeightInput" name="tile_height" required>
+                    <label for="TilesHeightInput">Altura (cm)</label>
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="mb-3">
+                <h4 class="text-white mb-3" >Porcentagem de Perda (%)</h4>
+                <div class="col form-label mb-3">
+                    <input type="range" class="form-control mb-3" min="0" max="100" step="5" value="20" id="LossPercentageInput" name="loss_perc" oninput="updatePercentage(this.value)">
+                    <script>
+                        // Função que atualiza o <span> com o valor + o símbolo de % do <input type="range">
+                        function updatePercentage(value) {
+                            document.getElementById('percentageValue').textContent = value + '%';
+                        }
+                    </script>
+                    <h5 class="text-white">Valor Atual: <span id="percentageValue">20%</span></h5>
+                    <button type="submit" class="btn btn-success btn-lg">Calcular</button>
+                    <script>
+                        // Função que realiza o cálculo dos valores inseridos no formulário
+                        document.getElementById("calculationForm").addEventListener("submit", function(event) {
+                            event.preventDefault();
+
+                            const roomHeight = parseFloat(document.getElementById("AreaHeightInput").value);
+                            const roomWidth = parseFloat(document.getElementById("AreaWidthInput").value);
+                            const tileHeight = parseFloat(document.getElementById("TilesHeightInput").value) / 100;
+                            const tileWidth = parseFloat(document.getElementById("TilesWidthInput").value) / 100;
+                            const lossPercentage = parseFloat(document.getElementById("LossPercentageInput").value) / 100;
+
+                            const calculationData = {
+                                room_height: roomHeight,
+                                room_width: roomWidth,
+                                tile_height: tileHeight,
+                                tile_width: tileWidth,
+                                loss_perc: lossPercentage
+                            };
+
+                            fetch(`${backendUrl}/calculation`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(calculationData)
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        return response.json();
+                                    } else {
+                                        throw new Error('Erro na requisição.')
+                                    }
+                                })
+                                .then(data => {
+                                    document.getElementById("resultText").innerText = `Total de azulejos é ${data.total_tiles}
+                                    com a porcentagem de perda será ${data.final_tiles}!`;
+                                })
+                                .catch(error => {
+                                    console.error('Erro:', error);
+                                    document.getElementById("resultText").innerText = "Ocorreu um erro ao calcular. Verifique os dados.";
+                                });
+                        });
+                    </script>
+                </div>
+            </div>
+        </form>
+
+        <div id="resultContainer" class="card ms-5 text-center">
+            <div class="justify-content-center align-items-center m-5 cube">
+                <!-- Aqui está o cubo 3D -->
+                <div class="side front" onclick="changeColor(this)">Parede</div>
+                <div class="side left" onclick="changeColor(this)">Parede</div>
+                <div class="side bottom" onclick="changeColor(this)">Piso</div>
+                <script>
+                    // Função que, ao clica no cubo 3D, o elemento fique mais escuro
+                    // E também atualiza o <h2> Dimensões do ambiente com o valor dos lados (Seja piso ou parede)
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const sides = document.querySelectorAll('.side');
+                        const clickedSideName = document.getElementById('clickedSideName');
+
+                        sides.forEach(side => {
+                            side.addEventListener('click', () => {
+                                clickedSideName.textContent = `Dimensões do Ambiente: ${side.textContent}`;
+                                sides.forEach(s => {
+                                    s.classList.remove('clicked');
+                                });
+                                side.classList.add('clicked');
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            <form class="mt-5">
+                <h3 class="text-white">Resultados:</h3>
+                <p id="resultText" class="text-white"></p>
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-describedby="saveButton" id="saveName" placeholder="Nome do local" style="display: none">
+                    <button type="button" class="btn btn-primary" id="saveButton" style="display: none;">Salvar</button>
+                </div>
+                <script>
+                    // Função que verifica se há algum usuário logado.
+                    // Se houver, aparece os elementos <input> e <button> acima
+                    // Se não houver, não irá aparecer os elementos
+                    document.addEventListener("DOMContentLoaded", checkUserSession);
+                    function checkUserSession() {
+                        fetch(`${backendUrl}/user/currentuser`)
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById('saveName').style.display = 'block';
+                                    document.getElementById('saveButton').style.display = 'block';
+                                } else {
+                                    document.getElementById('saveName').style.display = 'none';
+                                    document.getElementById('saveButton').style.display = 'none';
+                                }
+                            });
+                    }
+
+                    // Função que salva o cálculo realizado no histórico do usuário
+                    document.getElementById('saveButton').addEventListener('click', saveOperation);
+                    function saveOperation() {
+                        const name = document.getElementById('saveName').value;
+                        const resultText = document.getElementById("resultText").innerText;
+                        const total_tiles = parseFloat(resultText.match(/Total de azulejos é (\d+(\.\d+)?)/)[1]);
+                        const final_tiles = parseFloat(resultText.match(/com a porcentagem de perda será (\d+(\.\d+)?)/)[1]);
+                        const loss_perc = document.getElementById('LossPercentageInput').value;
+
+                        fetch(`${backendUrl}/operations/save`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name: name,
+                                total_tiles: total_tiles,
+                                final_tiles: final_tiles,
+                                loss_perc: loss_perc
+                            }),
+                        })
+                            .then(response =>{
+                                if (response.ok){
+                                    showAlert('Operação salva com sucesso', 'Sucesso');
+                                } else {
+                                    showAlert('Erro ao salvar a operação', 'Erro');
+                                }
+                            })
+                            .catch(error => {
+                                showAlert('Erro ao processar a solicitação: ' + error.message, 'Erro');
+                            });
+                    }
+                </script>
+            </form>
+        </div>
+    </div>
+
+    <div class="section d-flex justify-content-center align-items-center vh-100 text-center text-white">
+        <h6>
+            <section id="tutorial" class="mt-5">
+                <h2 class="text-center">Como funciona a calculadora SmarTiles?</h2>
+                <p>A calculadora de pisos <strong>SmarTiles</strong> foi desenvolvida para facilitar o processo de cálculo da quantidade de pisos e azulejos que você precisa para sua obra.</p>
+
+                <ul class="list-group list-group-numbered">
+                    <li class="list-group-item list-group-item-warning">Primeiro, insira as dimensões do ambiente que você deseja revestir, informando a <strong>largura</strong> e a <strong>altura</strong> do local em metros.</li>
+                    <li class="list-group-item list-group-item-primary">Depois, insira as dimensões do piso, como <strong>largura</strong> e <strong>altura</strong> em centímetros</li>
+                    <li class="list-group-item list-group-item-danger">Indique a <strong>porcentagem de perda</strong> esperada para evitar que falte material.</li>
+                    <li class="list-group-item list-group-item-success">Por fim, clique no botão <strong>Calcular</strong> para obter o número de pisos necessários.</li>
+                </ul>
+
+                <p>A calculadora levará todos esses dados e calculará a quantidade ideal de pisos com base nas dimensões fornecidas, já considerando a perda definida.</p>
+                <h3><a class="icon-link icon-link-hover" href="#calculadora">Vamos lá?</a></h3>
+            </section>
+        </h6>
+    </div>
+
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="alertModalLabel">Alerta</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-labelledby="Close"></button>
+                </div>
+                <div class="modal-body" id="alertModalMessage">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    <a href="user.html" type="button" class="btn btn-success">Ver perfil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para alterar os valores da modal personalizada
+        function showAlert(message, title = "Alerta"){
+            document.getElementById('alertModalLabel').textContent = title;
+            document.getElementById('alertModalMessage').textContent = message;
+
+            let alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+            alertModal.show();
+        }
+    </script>
+
+
+    <footer class="bg-transparent text-light py-4">
+        <div class="container text-center">
+            <p class="mb-1">© 2024 SmarTiles. Todos os direitos reservados.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a href="#" class="text-light">Política de Privacidade</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#" class="text-light">Termos de Uso</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#" class="text-light">Contato</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
