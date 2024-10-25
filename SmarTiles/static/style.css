@@ -1,0 +1,123 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to right, rgba(8, 3, 82, 0.8), rgba(53, 2, 77, 0.8)) fixed;
+    background-size: cover;
+ }
+
+.navbar {
+    background-color: rgba(205, 205, 255, 0.7);
+}
+
+#welcome-text{
+    font-size: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: subtleSlideUp 2s ease-out forwards;
+}
+
+@keyframes subtleSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form, footer, .card{
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.separator {
+    border-top: 2px solid #fff;
+    margin: 20px 0;
+}
+
+.form-floating {
+    font-size: 2rem;
+    position: relative;
+}
+.form-floating label {
+    font-size: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.form-control {
+    text-align: center;
+}
+
+.cube {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+    transform: rotateX(-30deg) rotateY(-30deg);
+    animation: rotateCube 3s;
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.cube:hover {
+    transform: rotateX(-30deg) rotateY(-140deg);
+}
+
+@keyframes rotateCube {
+    0% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+    100% {
+        transform: rotateX(-30deg) rotateY(-30deg);
+    }
+}
+
+.side {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to right, rgba(0, 128, 255, 0.8), rgb(11, 105, 191) 70%);
+    /*background-color: rgba(0, 128, 255, 0.8);*/
+    border: 1px solid #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: transparent;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.front {
+    transform: translateZ(100px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(100px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+}
+
+.side:hover {
+    background: linear-gradient(to right, rgba(255, 0, 0, 0.8), rgb(181, 12, 12) 70%);
+}
+
+.side.clicked {
+    background: linear-gradient(to right, rgba(3, 73, 143, 0.8), rgb(5, 66, 120) 70%);
+}
+
+.custom-table {
+    border-radius: 0.5rem; /* Arredonda as bordas */
+    overflow: hidden; /* Garante que as bordas arredondadas sejam visíveis */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adiciona sombra */
+}
+
