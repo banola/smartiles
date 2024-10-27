@@ -1,3 +1,5 @@
 spring:
   profiles:
-    active: ${USER}
+    active: ${USER:default}
+  datasource:
+    url: ${JDBC_DATABASE_URL}
