@@ -238,7 +238,13 @@
                     // Se não houver, não irá aparecer os elementos
                     document.addEventListener("DOMContentLoaded", checkUserSession);
                     function checkUserSession() {
-                        fetch(`${backendUrl}/user/currentuser`)
+                        fetch(`${backendUrl}/user/currentuser`, {
+                            method: GET
+                            credentials: include
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
                             .then(response => {
                                 if (response.ok) {
                                     document.getElementById('saveName').style.display = 'block';
