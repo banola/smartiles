@@ -18,7 +18,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarOpen">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse ml-auto" id="navbarOpen">
+        <div class="collapse navbar-collapse" id="navbarOpen">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Início</a>
@@ -77,12 +77,14 @@
                     <h6 class="card-title text-white" id="user-name">Bem-vindo, Nome do Usuário</h6>
                     <p class="card-text text-white" id="user-email">Email: usuario@example.com</p>
                     <script>
+                        // Atualiza com os dados do usuário logado
                         document.addEventListener("DOMContentLoaded", function () {
                             fetch(`${backendUrl}/user/currentuser`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json'
-                                }
+                                },
+                                credentials: 'include'
                             })
                                 .then(response => {
                                     if (response.ok) {
