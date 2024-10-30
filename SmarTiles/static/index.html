@@ -239,7 +239,6 @@
                     document.addEventListener("DOMContentLoaded", checkUserSession);
                     function checkUserSession() {
                         fetch(`${backendUrl}/user/currentuser`, {
-                            method: GET,
                             headers: {
                                 'Content-Type': 'application/json'
                             },
