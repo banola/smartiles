@@ -37,7 +37,8 @@
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json'
-                                }
+                                },
+                                credentials: 'include'
                             })
                                 .then(response => {
                                     if (response.ok) {
@@ -125,7 +126,9 @@
                             document.getElementById("logoutbtn").addEventListener('click', function(event) {
                                 event.preventDefault();
                                 fetch(`${backendUrl}/login/logout`, {
-                                    method: 'POST' })
+                                    method: 'POST',
+                                    credentials: 'include'
+                                })
                                     .then(response => {
                                         if (response.ok) {
                                             window.location.href = "login.html";
