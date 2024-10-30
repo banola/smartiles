@@ -167,7 +167,10 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function(){
-            fetch(`${backendUrl}/operations`)
+            fetch(`${backendUrl}/operations`, {
+                method: 'GET',
+                credentials: 'include'
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erro ao buscar dados');
@@ -201,6 +204,7 @@
             if (confirm('Tem certeza que deseja excluir esta operação?')){
                 fetch(`${backendUrl}/operations/${id}`, {
                     method:'DELETE',
+                    credentials: 'include'
                 })
                     .then(response =>{
                         if(response.ok){
