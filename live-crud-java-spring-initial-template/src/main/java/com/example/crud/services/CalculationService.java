@@ -1,7 +1,9 @@
 package com.example.crud.services;
 
 import org.springframework.stereotype.Service;
-
+// A notação @Service indica ao Spring que esta classe contém regras de negócio
+// que serão utilizadas em uma classe Controller.
+// No caso esta classe serve para definir as regras de negócio envolvidas durante o cálculo dos pisos.
 @Service
 public class CalculationService {
 

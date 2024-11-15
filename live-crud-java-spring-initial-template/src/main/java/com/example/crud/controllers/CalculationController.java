@@ -7,11 +7,13 @@ import com.example.crud.services.CalculationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+// Esta classe é responsável pelo funcionamento da conta para definir a quantidade de pisos.
+// A função RestController define esta classe como um controller para o Spring, a RequestMapping define o caminho url para acessar esta controller.
 @RestController
 @RequestMapping("/calculation")
 public class CalculationController {
-
+    // Atravéz da função @Autowired do Spring injetamos valores referentes a outras classes do nosso programa nesta Classe
+    // no caso estamos injetando valores da classe CalculationService.
     @Autowired
     private final CalculationService calcservice;
 
@@ -19,20 +21,17 @@ public class CalculationController {
     public CalculationController(CalculationService calcservice) {
         this.calcservice = calcservice;
     }
-
+    // A função @PostMapping é responsável pela execução do metodo atribuido à ela quando houver uma requisição do tipo POST.
+    // O metodo tiles_calc realiza a conta dos pisos utilizando a lógica presente na classe CalculationService. Este metodo não
+    // realiza a persistencia dos dados, mas sim, apenas o cálculo da quantidade de pisos necessários.
     @PostMapping
     public ResponseEntity<ResponseCalculation> tiles_calc(@RequestBody RequestCalculation request) {
-        double room_height = request.room_height();
-        double room_width = request.room_width();
-        double tile_height = request.tile_height();
-        double tile_width = request.tile_width();
-        double loss_perc = request.loss_perc();
 
-        double area_room = calcservice.area_room(room_height, room_width);
-        double area_tile = calcservice.area_tile(tile_height, tile_width);
+        double area_room = calcservice.area_room(request.room_height(), request.room_width());
+        double area_tile = calcservice.area_tile(request.tile_height(), request.tile_width());
         double total_tiles = calcservice.total_tiles(area_room, area_tile);
-        double final_tiles = calcservice.final_tles(total_tiles, loss_perc);
-
+        double final_tiles = calcservice.final_tles(total_tiles, request.loss_perc());
+        // A classe ResponseClaculation se mostra necessária pois não estamos retornando apenas 1 valor, mas sim 2 valores no fim deste metodo.
         ResponseCalculation rq = new ResponseCalculation(total_tiles, final_tiles);
         return ResponseEntity.ok().body(rq);
     }

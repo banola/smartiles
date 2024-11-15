@@ -4,13 +4,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+// Esta classe é responsável por permitir as requisições e respostas
+// do front-end, que está hospedado na Vercel
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://smartiles.vercel.app/") // Permite o front local
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Métodos permitidos
-                .allowCredentials(true); // Permite cookies/sessões
+                .allowedOrigins("https://smartiles.vercel.app/")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }

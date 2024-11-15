@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: ${USER}
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: none
+        secure: true
