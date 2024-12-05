@@ -187,8 +187,8 @@
                                     }
                                 })
                                 .then(data => {
-                                    document.getElementById("resultText").innerText = `Total de azulejos é ${data.total_tiles}
-                                    com a porcentagem de perda será ${data.final_tiles}!`;
+                                    document.getElementById("resultText").innerHTML = `Total de azulejos é <strong>${data.total_tiles}</strong> 
+                                    com a porcentagem de perda será <strong>${data.final_tiles}</strong>!`;
                                 })
                                 .catch(error => {
                                     console.error('Erro:', error);
